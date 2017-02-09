@@ -3,6 +3,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
 # Connects this to the PostgreSQL database
+
 db = SQLAlchemy()
 
 ####################################################
@@ -19,11 +20,10 @@ class User(db.Model):
     email = db.Column(db.String(60), nullable=False, unique=True)
     password = db.Column(db.String(20), nullable=False)
     username = db.Column(db.String(15), nullable=False)
-    country = db.Column(db.String(25), nullable=True)
+    country = db.Column(db.String(45), nullable=True)
     state = db.Column(db.String(5), nullable=True)
     newsletter = db.Column(db.Boolean, default=False)
 
-    # should I have this many things in the repr since I'm not sure what I'll want printed later?
     def __repr__(self):
         """Provide helpful representation when printed."""
 
@@ -36,7 +36,7 @@ class User(db.Model):
                                                                 self.newsletter)
 
 
-class Model_3d(db.Model):
+class Model3d(db.Model):
     """3D model on Project Miniverse site"""
 
     __tablename__ = "models_3d"
@@ -48,7 +48,6 @@ class Model_3d(db.Model):
     owns_file = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))  # Foriegn Key
 
-    #relationships? should it be both ways?
     user = db.relationship('User',
                             backref=db.backref('models_3d'))
 
@@ -74,17 +73,17 @@ class Favorite(db.Model):
 
     user = db.relationship('User',
                         backref=db.backref('favorites'))
-    user = db.relationship('Model_3d',
+    model_3d = db.relationship('Model3d',
                         backref=db.backref('favorites'))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Favorites fav_id=%s>" % (self.fav_id)
+        return "<Favorite fav_id=%s>" % (self.fav_id)
 
 
-# check if this class is ok with capitol I in images for model name
-class User_Image(db.Model):
+# check if this class is ok with capitol I in images for model name or keep lower i
+class UserImage(db.Model):
     """Image(s) for each seperate 3D model page"""
 
     __tablename__ = "user_images"
@@ -96,33 +95,31 @@ class User_Image(db.Model):
 
     user = db.relationship('User',
                         backref=db.backref('user_images'))
-    user = db.relationship('Model_3d',
+    model_3d = db.relationship('Model3d',
                         backref=db.backref('user_images'))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<User_Images img_id=%s filepath_img=%s>" % (self.img_id,
+        return "<User_Image img_id=%s filepath_img=%s>" % (self.img_id,
                                                             self.filepath_img)
 
 
 #####################################################################
-# Helper functions? Do I need this?
+# Helper functions. I need all of this right?  Have to create the database in command line? 
 
 def connect_to_db(app):
-    """Connect the database to our Flask app."""
+    """Connects the database to the Flask app"""
 
     # Configure to use our PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///users'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///miniverse'
     db.app = app
     db.init_app(app)
 
 
 if __name__ == "__main__":
-    # If we run this module interactively, it will
-    # leave you in a state of being able to work with the database
-    # directly.
+
 
     from server import app
     connect_to_db(app)
-    print "Connected to DB."
+    print "Connected to DB!!"
