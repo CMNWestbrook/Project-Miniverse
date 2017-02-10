@@ -12,14 +12,27 @@
 
         <a href="/" class="navigation" id="main">MAIN</a>
 
-        <a href="/dashboard" class="navigation" id="dashboard">YOUR DASHBOARD</a>
+        <a href="/dashboard/{{ session['user_id'] }}" class="navigation" id="dashboard">YOUR DASHBOARD</a>
 
         <a href="/about" class="navigation" id="about">ABOUT PROJECT MINIVERSE</a>
 
+        {% if "user_id" in session %}
+            <a href="/logout">LOGOUT</a>
+        {% else %}
+            <a href="/login">SIGN IN / REGISTER</a>
+        {% endif %}
 
-        <a href="/login" class="navigation" id="signIn">SIGN IN / REGISTER</a>
 </div>
 
+
+
+<!-- snazzy horizontal line -->
+<hr>
+
+{% for flash in get_flashed_messages() %}
+  {{ flash }}
+{% endfor %}
+<br />
 
 {% block content %}
     Body of page.

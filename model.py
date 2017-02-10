@@ -22,7 +22,7 @@ class User(db.Model):
     username = db.Column(db.String(15), nullable=False)
     country = db.Column(db.String(45), nullable=True)
     state = db.Column(db.String(5), nullable=True)
-    newsletter = db.Column(db.Boolean, default=False)
+    newsletter = db.Column(db.Boolean)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
