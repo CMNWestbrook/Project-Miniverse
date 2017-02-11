@@ -7,12 +7,17 @@
 
     <div id="projectMiniverseLogo"> Project Miniverse Logo </div>
     <br />
-<div id="navBar"
-        <a href="/explore" class="navigation" id="search">EXPLORE</a>
+<div id="navBar">
 
         <a href="/" class="navigation" id="main">MAIN</a>
+        
+        <a href="/explore" class="navigation" id="search">EXPLORE</a>
 
-        <a href="/dashboard/{{ session['user_id'] }}" class="navigation" id="dashboard">YOUR DASHBOARD</a>
+        {% if "user_id" in session %}
+            <a href="/dashboard/{{ session['user_id'] }}" class="navigation" id="dashboard">YOUR DASHBOARD</a>
+        {% else %}
+
+        {% endif %}
 
         <a href="/about" class="navigation" id="about">ABOUT PROJECT MINIVERSE</a>
 

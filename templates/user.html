@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{  user.username }}'s Dashboard</h2>
+
+
+    {% if "user_id" in session %}
+<div>
+        <h3>Upload an image or rendering of your 3D model:</h3>
+    <button>
+        <a href='/upload_img/{{ session['user_id'] }}' id="upload">Upload</a>
+    </button>
+</div>
+
+<div>
+    <h3>{{  user.username }}'s Favorites:</h3> <!-- ajax dropdown? -->
+    <p>
+        <ul>
+        {% for favorite in user.favorites %}
+          <li>
+            {{ favorite.fav_id }}
+            <!-- <a href="/{{ favorite.filepath_img }}">{{ favorite.fav_id }}</a> -->
+          </li>
+        {% endfor %}
+        </ul>
+    </p>
+</div>
+    {% else %}
+        <p></p>
+    {% endif %}
+
+<h3>{{ user.username }}'s 3D models:</h3> <!-- ajax dropdown? -->
+<p>
+    <ul>
+    {% for model_3d in user.models_3d %}
+      <li>
+        <a href="/{{ model_3d.filepath_3d }}">{{ model_3d.title }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+</p>
+
+
+{% endblock %}

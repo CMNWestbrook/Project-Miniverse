@@ -17,6 +17,8 @@ app.secret_key = "soVewyVewySecretDoc"
 # Initiates error if undefined variable in Jinja
 app.jinja_env.undfined = StrictUndefined
 
+app.jinja_env.auto_reload = True  # delete for "production" copy
+
 
 @app.route('/')
 def index():
@@ -120,15 +122,22 @@ def user_dashboard(user_id):
     return render_template('user.html', user=user)
 
 
-# @app.route('/dashboard')
-# def explore_page():
-#     """Goes to user's dashboard page"""
+@app.route("/upload_img/<int:user_id>")
+def upload_img(user_id):
+    """Shows form where user can upload images/rederings on 3D file page"""
 
-#     return render_template("/%s" % user.user_id)
+    user = User.query.get(user_id)
+    return render_template("upload_img.html", user=user)
+
+# @app.route("/upload_img", methods=['POST'])
+#     def uploading_img():
+#         """"""
+#         return redirect("/dashboard/<int:user_id>")
 
 
-# @app.route('/3d_file')
-# def 3d_file():
+
+
+
 
 if __name__ == "__main__":
     app.debug = True
