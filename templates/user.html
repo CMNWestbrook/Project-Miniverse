@@ -5,9 +5,10 @@
 
     {% if "user_id" in session %}
 <div>
-        <h3>Upload an image or rendering of your 3D model:</h3>
+        <!-- <h3>Upload an image or rendering of your 3D model:</h3> -->
+        <h3>Upload a 3D model in STL format here:</h3>
     <button>
-        <a href='/upload_file_img' id="upload_page">Upload Page</a>
+        <a href='/upload_file_stl' id="upload_page">Upload Page</a>
         <!-- <a href='/upload_file_img/{{ session['user_id'] }}' id="upload">Upload</a> -->
     </button>
 </div>

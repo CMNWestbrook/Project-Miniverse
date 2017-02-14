@@ -162,18 +162,18 @@ def upload_file_img():
     if request.method == 'POST':
         # check if the post request has the file ending
         if 'img' not in request.files:
-            flash('No file ending')
+            flash('Incorrect file ending')
             return redirect("/upload_file_img")
-        file = request.files['img']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
+        img_file = request.files['img']
+        if img_file.filename == '':
             flash("You didn\'t select a file")
             return redirect("/upload_file_img")
-        if request.method == 'POST' and file and img_allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], filename))
+        if request.method == 'POST' and img_file and img_allowed_file(img_file.filename):
+            filename = secure_filename(img_file.filename)
+            img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], filename))
+            flash("%s has been uploaded" % filename)
             return filename
+
     return render_template('upload_img.html')
         # return redirect(url_for('uploaded_img', filename=filename))
             # redirect(url_for('upload',
@@ -190,7 +190,23 @@ def upload_file_img():
 
     # @app.route('/upload_stl', methods=['GET', 'POST'])
     # def upload_file_stl():
-
+@app.route('/upload_file_stl', methods=['GET', 'POST'])
+def upload_file_stl():
+    if request.method == 'POST':
+        # check if the post request has the file ending
+        if 'stl' not in request.files:
+            flash('Incorrect file ending')
+            return redirect("/upload_file_stl")
+        stl_file = request.files['stl']
+        if stl_file.filename == '':
+            flash("You didn\'t select a file")
+            return redirect("/upload_file_stl")
+        if request.method == 'POST' and stl_file and stl_allowed_file(stl_file.filename):
+            filename = secure_filename(stl_file.filename)
+            stl_file.save(os.path.join(app.config['STL_UPLOAD_FOLDER'], filename))
+            flash("%s has been uploaded" % filename)
+            return filename
+    return render_template('stl.html')
 
 
 
