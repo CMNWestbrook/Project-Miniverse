@@ -1,12 +1,13 @@
 """Project Miniverse"""
-
+import os
 from jinja2 import StrictUndefined  # makes StrictUndefined work below
-
 # Makes all the flask commands work
-from flask import Flask, redirect, session, render_template, request, flash
+from flask import Flask, redirect, session, render_template, request, flash, url_for, send_from_directory
+# from flaskext.uploads import configure_uploads
+# , IMAGES, ALL
+from werkzeug.utils import secure_filename
 # This imports the debug toolbar witch will give useful error messages
 from flask_debugtoolbar import DebugToolbarExtension
-
 from model import connect_to_db, db, User  # , Model3d, Favorite, UserImage
 
 
@@ -122,17 +123,79 @@ def user_dashboard(user_id):
     return render_template('user.html', user=user)
 
 
-@app.route("/upload_img/<int:user_id>")
-def upload_img(user_id):
-    """Shows form where user can upload images/rederings on 3D file page"""
+# @app.route("/upload_img/<int:user_id>")
+# def upload_img(user_id):
+#     """Shows form where user can upload images/rederings on 3D file page"""
 
-    user = User.query.get(user_id)
-    return render_template("upload_img.html", user=user)
+#     user = User.query.get(user_id)
+#     return render_template("upload_img.html", user=user)
 
 # @app.route("/upload_img", methods=['POST'])
 #     def uploading_img():
 #         """"""
 #         return redirect("/dashboard/<int:user_id>")
+
+########### UPLOADS ############
+IMG_UPLOAD_FOLDER = 'uploaded/images'
+IMG_ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+STL_UPLOAD_FOLDER = 'uploaded/stl_files'
+STL_ALLOWED_EXTENSIONS = ('stl')
+
+app.config['IMG_UPLOAD_FOLDER'] = IMG_UPLOAD_FOLDER
+app.config['STL_UPLOAD_FOLDER'] = STL_UPLOAD_FOLDER
+
+
+# these two functions make sure the file exension is correct
+def img_allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in IMG_ALLOWED_EXTENSIONS
+
+
+def stl_allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in STL_ALLOWED_EXTENSIONS
+
+
+@app.route('/upload_file_img', methods=['GET', 'POST'])
+def upload_file_img():
+    if request.method == 'POST':
+        # check if the post request has the file ending
+        if 'img' not in request.files:
+            flash('No file ending')
+            return redirect("/upload_file_img")
+        file = request.files['img']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash("You didn\'t select a file")
+            return redirect("/upload_file_img")
+        if request.method == 'POST' and file and img_allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], filename))
+            return filename
+    return render_template('upload_img.html')
+        # return redirect(url_for('uploaded_img', filename=filename))
+            # redirect(url_for('upload',
+            #                         filename=filename))
+    # return render_template('upload_img.html')
+    # return redirect("/dashboard/{{ session['user_id'] }}")
+
+
+# @app.route('/uploaded/images/<filename>')
+# def uploaded_img(filename):
+#     return send_from_directory(app.config['IMG_UPLOAD_FOLDER'],
+#                                filename)
+
+
+    # @app.route('/upload_stl', methods=['GET', 'POST'])
+    # def upload_file_stl():
+
+
+
+
+
+
 
 
 

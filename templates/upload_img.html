@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+    <div>
+    <h3>Upload a photo or rendering of your 3D model using the following</h3>
+
+    <form method=POST enctype=multipart/form-data action="{{ url_for('upload_file_img') }}">
+        <input type=file name=img><input type=submit>
+    </form>
+    </div>
+
+
+
+
+{% endblock %}
