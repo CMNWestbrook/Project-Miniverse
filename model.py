@@ -28,12 +28,12 @@ class User(db.Model):
         """Provide helpful representation when printed."""
 
         return ("<User user_id=%s email=%s username=%s country=%s state=%s newsletter=%s>") % (
-                                                                self.user_id,
-                                                                self.email,
-                                                                self.username,
-                                                                self.country,
-                                                                self.state,
-                                                                self.newsletter)
+            self.user_id,
+            self.email,
+            self.username,
+            self.country,
+            self.state,
+            self.newsletter)
 
 
 class Model3d(db.Model):
@@ -43,7 +43,7 @@ class Model3d(db.Model):
 
     model_3d_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     downloadable = db.Column(db.Boolean, default=False)
-    title = db.Column(db.String(40), nullable=False)
+    title = db.Column(db.String(40), nullable=True)
     filepath_3d = db.Column(db.String(80), nullable=True)
     owns_file = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))  # Foriegn Key
@@ -55,11 +55,11 @@ class Model3d(db.Model):
         """Provide helpful representation when printed."""
 
         return "<Model_3d model_3d_id=%s downloadable=%s title=%s filepath_3d=%s owns_file=%s>" % (
-                                                        self.model_3d_id,
-                                                        self.downloadable,
-                                                        self.title,
-                                                        self.filepath_3d,
-                                                        self.owns_file)
+                            self.model_3d_id,
+                            self.downloadable,
+                            self.title,
+                            self.filepath_3d,
+                            self.owns_file)
 
 
 class Favorite(db.Model):

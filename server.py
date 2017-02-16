@@ -2,13 +2,13 @@
 import os
 from jinja2 import StrictUndefined  # makes StrictUndefined work below
 # Makes all the flask commands work
-from flask import Flask, redirect, session, render_template, request, flash, url_for, send_from_directory
+from flask import Flask, redirect, session, render_template, request, flash, send_from_directory, current_app
 # from flaskext.uploads import configure_uploads
 # , IMAGES, ALL
 from werkzeug.utils import secure_filename
 # This imports the debug toolbar witch will give useful error messages
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, User  # , Model3d, Favorite, UserImage
+from model import connect_to_db, db, User, Model3d, Favorite, UserImage
 
 
 app = Flask(__name__)
@@ -123,18 +123,6 @@ def user_dashboard(user_id):
     return render_template('user.html', user=user)
 
 
-# @app.route("/upload_img/<int:user_id>")
-# def upload_img(user_id):
-#     """Shows form where user can upload images/rederings on 3D file page"""
-
-#     user = User.query.get(user_id)
-#     return render_template("upload_img.html", user=user)
-
-# @app.route("/upload_img", methods=['POST'])
-#     def uploading_img():
-#         """"""
-#         return redirect("/dashboard/<int:user_id>")
-
 ########### UPLOADS ############
 IMG_UPLOAD_FOLDER = 'uploaded/images'
 IMG_ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -175,54 +163,61 @@ def upload_file_img():
             return filename
 
     return render_template('upload_img.html')
-        # return redirect(url_for('uploaded_img', filename=filename))
-            # redirect(url_for('upload',
-            #                         filename=filename))
-    # return render_template('upload_img.html')
-    # return redirect("/dashboard/{{ session['user_id'] }}")
 
 
-# @app.route('/uploaded/images/<filename>')
-# def uploaded_img(filename):
-#     return send_from_directory(app.config['IMG_UPLOAD_FOLDER'],
-#                                filename)
+@app.route('/upload_file_stl', methods=['GET'])
+def upload_form():
+    """Shows stl upload form"""
+
+    return render_template("upload_stl.html")
 
 
-    # @app.route('/upload_stl', methods=['GET', 'POST'])
-    # def upload_file_stl():
-@app.route('/upload_file_stl', methods=['GET', 'POST'])
+@app.route('/upload_file_stl', methods=['POST'])
 def upload_file_stl():
-    if request.method == 'POST':
-        # check if the post request has the file ending
-        if 'stl' not in request.files:
-            flash('Incorrect file ending')
-            return redirect("/upload_file_stl")
-        stl_file = request.files['stl']
-        if stl_file.filename == '':
-            flash("You didn\'t select a file")
-            return redirect("/upload_file_stl")
-        if request.method == 'POST' and stl_file and stl_allowed_file(stl_file.filename):
-            filename = secure_filename(stl_file.filename)
-            stl_file.save(os.path.join(app.config['STL_UPLOAD_FOLDER'], filename))
-            flash("%s has been uploaded" % filename)
-            return filename
-    return render_template('stl.html')
+    """Processes and uploads the file securely"""
+
+    # check if the post request has the file ending
+    if 'stl' not in request.files:
+        flash('Incorrect file ending')
+        return redirect("/upload_file_stl")
+    stl_file = request.files['stl']
+    if stl_file.filename == '':
+        flash('You didn\'t select the correct file type')
+        return redirect("/upload_file_stl")
+    if stl_file and stl_allowed_file(stl_file.filename):
+        filename = secure_filename(stl_file.filename)
+        stl_file.save(os.path.join(app.config['STL_UPLOAD_FOLDER'], filename))
+
+        user_id = session['user_id']
+        filepath_3d = "uploaded/stl_files/" + filename
+        title = request.form.get("title")
+        owns_file = request.form.get("owns_file", False)
+        downloadable = request.form.get("downloadable", False)
+
+        new_stl = Model3d(filepath_3d=filepath_3d, user_id=user_id, title=title,
+                          owns_file=owns_file, downloadable=downloadable)
+        db.session.add(new_stl)
+        db.session.commit()
+
+        user = User.query.get(user_id)
+        stl = filepath_3d
+
+        # model_3d = Model3d.query.get(model_3d_id)
+
+        flash("%s has been uploaded!" % filename)
+        return render_template('stl.html', user=user, stl=stl, title=title, downloadable=downloadable)
 
 
-
-
-
-
-
-
-
+@app.route('/uploaded/stl_files/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    uploads = os.path.join(current_app.root_path, app.config['STL_UPLOAD_FOLDER'])
+    return send_from_directory(directory=uploads, filename=filename)
 
 
 if __name__ == "__main__":
     app.debug = True
 
     connect_to_db(app)
-
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
