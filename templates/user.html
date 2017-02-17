@@ -30,12 +30,12 @@
         <p></p>
     {% endif %}
 
-<h3>{{ user.username }}'s 3D models:</h3> <!-- ajax dropdown? -->
+<h3 id="user3dmodels">{{ user.username }}'s 3D models:</h3> <!-- ajax dropdown? -->
 <p>
     <ul>
     {% for model_3d in user.models_3d %}
       <li>
-        <a href="/{{ model_3d.filepath_3d }}">{{ model_3d.title }}</a>
+        <a href="/model_3d_page/{{ model_3d.model_3d_id }}">{{ model_3d.title }}</a>
       </li>
     {% endfor %}
     </ul>

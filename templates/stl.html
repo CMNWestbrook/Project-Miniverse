@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h3>You've Downloaded a model with the following information:</h3>
+
+<p>
+Title: {{ title }}
+<br /><br />
+Download Link: <a href="uploaded/stl_files/{{ stl }}" download>{{ stl }}</a>
+</p>
+
+Go to your dashboard to select each 3D model's page
+
+{% if (downloadable or "user_id" in session) %}
+
+{% endif %}
+    
+
+
+
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h3>Title: {{ model3d.title }}</h3>
+
+This 3D model was uploaded by {{ model3d.user.username }}
+
+{% if (model3d.downloadable == True or model3d.user_id in session) %}
+
+
+
+<p>
+Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
+</p>
+
+{% endif %}
+<br /><br />
+Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
+    
+
+
+
+
+{% endblock %}

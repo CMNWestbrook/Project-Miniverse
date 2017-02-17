@@ -117,16 +117,14 @@ def user_dashboard(user_id):
 
     user = User.query.get(user_id)
 
-    # if not user_id:
-    #     raise Exception("Log in to see your Dashboard")
-    # else:
     return render_template('user.html', user=user)
 
 
 ########### UPLOADS ############
-IMG_UPLOAD_FOLDER = 'uploaded/images'
+IMG_UPLOAD_FOLDER = '/uploaded/images'
 IMG_ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
+#STL_UPLOAD_FOLDER = '/uploaded/stl_files'
 STL_UPLOAD_FOLDER = 'uploaded/stl_files'
 STL_ALLOWED_EXTENSIONS = ('stl')
 
@@ -174,7 +172,7 @@ def upload_form():
 
 @app.route('/upload_file_stl', methods=['POST'])
 def upload_file_stl():
-    """Processes and uploads the file securely"""
+    """Processes and uploads the file securely and generates confirmation page"""
 
     # check if the post request has the file ending
     if 'stl' not in request.files:
@@ -202,16 +200,44 @@ def upload_file_stl():
         user = User.query.get(user_id)
         stl = filepath_3d
 
-        # model_3d = Model3d.query.get(model_3d_id)
-
         flash("%s has been uploaded!" % filename)
         return render_template('stl.html', user=user, stl=stl, title=title, downloadable=downloadable)
 
 
-@app.route('/uploaded/stl_files/<path:filename>', methods=['GET', 'POST'])
-def download(filename):
-    uploads = os.path.join(current_app.root_path, app.config['STL_UPLOAD_FOLDER'])
-    return send_from_directory(directory=uploads, filename=filename)
+# takes info out of database
+@app.route('/model_3d_page/<int:model_3d_id>')
+def model_3d_page(model_3d_id):
+    """Shows the page for an individual 3D model and allows image uploads"""
+
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+    model3d = Model3d.query.get(model_3d_id)
+
+    return render_template('model_3d_page.html', user=user, model3d=model3d)
+
+
+# make route for photo upload
+# /uploaded/stl_files/<path:filename>
+
+@app.route('/uploaded/stl_files/<path:filepath_3d>', methods=['GET'])
+def download(filepath_3d):
+    """Download files"""
+
+    # print "*"*20, 'got here'
+
+    #uploads = os.path.join(current_app.root_path, app.config['STL_UPLOAD_FOLDER'])
+    uploads = os.path.join(app.config['STL_UPLOAD_FOLDER'])
+    # filepath = Model3d.query.get('filepath_3d')
+
+    # filename = Model3d.query.filter_by(filepath_3d=filepath_3d)
+    # print filename
+
+    # print "directory", uploads
+    # print "filename", filepath_3d
+
+
+    return send_from_directory(directory=uploads, filename=filepath_3d)
+    #return send_from_directory(directory="uploaded/stl_files", filename=filepath_3d)
 
 
 if __name__ == "__main__":

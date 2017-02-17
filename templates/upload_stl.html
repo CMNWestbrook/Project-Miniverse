@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div>
+    <div class="medium">Upload files and information for your 3D Model's page</div>
+    <div class="small">(Please upload/fill out all steps)</div>
+    <br /><br />
+    <form method="POST" enctype=multipart/form-data>
+    <ol>
+        <li>By uploading this file and/or clicking the following box <br />
+            you are acknowledging that you own all copyrights to this
+        <br /> 3D model or have the owners approval to use it: <input type="checkbox" name="owns_file" id="owns_file" value="True"></li><br />
+
+        <li>Your 3D Model in STL format: <input type="file" name="stl"></li><br />
+
+        <li>Title of your 3D Model: <input type="text" maxlength="40" name="title"></li><br />
+ 
+        <li>Do you give permission for other users to download this file?<br /> 
+        Yes (if No leave unchecked): <input type="checkbox" name="downloadable" id="downloadable" value="True"></li><br />
+    </ol>
+    <br /><br />
+        <input type=submit>
+
+        <!-- <input type=file name=stl value="filepath_3d"><input type=submit> -->
+    </form>
+    
+    </div>
+
+
+
+{% endblock %}
