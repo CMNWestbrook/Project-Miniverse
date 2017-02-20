@@ -121,7 +121,7 @@ def user_dashboard(user_id):
 
 
 ########### UPLOADS ############
-IMG_UPLOAD_FOLDER = '/uploaded/images'
+IMG_UPLOAD_FOLDER = 'uploaded/images'
 IMG_ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 #STL_UPLOAD_FOLDER = '/uploaded/stl_files'
@@ -187,7 +187,8 @@ def upload_file_stl():
         stl_file.save(os.path.join(app.config['STL_UPLOAD_FOLDER'], filename))
 
         user_id = session['user_id']
-        filepath_3d = "uploaded/stl_files/" + filename
+        # filepath_3d = "uploaded/stl_files/" + filename
+        filepath_3d = filename
         title = request.form.get("title")
         owns_file = request.form.get("owns_file", False)
         downloadable = request.form.get("downloadable", False)
@@ -212,8 +213,9 @@ def model_3d_page(model_3d_id):
     user_id = session['user_id']
     user = User.query.get(user_id)
     model3d = Model3d.query.get(model_3d_id)
+    current_user = session['user_id']
 
-    return render_template('model_3d_page.html', user=user, model3d=model3d)
+    return render_template('model_3d_page.html', user=user, model3d=model3d, current_user=current_user)
 
 
 # make route for photo upload
@@ -223,18 +225,7 @@ def model_3d_page(model_3d_id):
 def download(filepath_3d):
     """Download files"""
 
-    # print "*"*20, 'got here'
-
-    #uploads = os.path.join(current_app.root_path, app.config['STL_UPLOAD_FOLDER'])
     uploads = os.path.join(app.config['STL_UPLOAD_FOLDER'])
-    # filepath = Model3d.query.get('filepath_3d')
-
-    # filename = Model3d.query.filter_by(filepath_3d=filepath_3d)
-    # print filename
-
-    # print "directory", uploads
-    # print "filename", filepath_3d
-
 
     return send_from_directory(directory=uploads, filename=filepath_3d)
     #return send_from_directory(directory="uploaded/stl_files", filename=filepath_3d)

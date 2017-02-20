@@ -6,19 +6,24 @@
 <h3>Title: {{ model3d.title }}</h3>
 
 This 3D model was uploaded by {{ model3d.user.username }}
+<br /><br />
+Is this file downloadable? {{ model3d.downloadable}}
+<br /><br />
+user id: {{ model3d.user.user_id }} {{ current_user }}
 
-{% if (model3d.downloadable == True or model3d.user_id in session) %}
+{% if model3d.downloadable %}
+    <p>
+    IF DOWNLOADABLE!!!!!
+    Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
+    </p>
+{% endif %}
 
-
-
-<p>
+{% if current_user == model3d.user.user_id %}
+<br /><br />
+IF USER THAT OWNS FILE IN SESSION!!!!
 Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
-</p>
 
 {% endif %}
-<br /><br />
-Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
-    
 
 
 
