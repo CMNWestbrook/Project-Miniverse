@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
 
 <h3>Title: {{ model3d.title }}</h3>
+
+
+IMAGE FILEPATH TEST:
+{{ img.filepath_img }}<br /><br />
+
 
 This 3D model was uploaded by {{ model3d.user.username }}
 <br /><br />
@@ -20,12 +24,67 @@ user id: {{ model3d.user.user_id }} {{ current_user }}
 
 {% if current_user == model3d.user.user_id %}
 <br /><br />
+<div id="user download file">
 IF USER THAT OWNS FILE IN SESSION!!!!
 Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
+</div><br />
+
+<div><p>Upload a photo or rendering of your 3D model:</p>
+    <form method="POST" enctype="multipart/form-data" id="img-upload-form">
+        <input type="file" name="img" id="img">
+        <button id="upload-img-button" type="submit">Upload Image</button>
+    </form>
+</div>
 
 {% endif %}
 
+<div>
+testing image!!!!!!!!!!!!
+<img src= {{ url_for('static', filename ='uploaded/images/testiph.jpg') }} height='200em' alt='test'>
 
+</div>
+
+<div id="photo-uploaded"></div>
+
+<script src="https://code.jquery.com/jquery.js"></script>
+<!-- <script src="/static/project_miniverse.js"></script> -->
+
+<script>
+function uploadImage(evt) {
+    evt.preventDefault();
+    // var uploadImg = $('#img').val();
+    // // var uploadImg = $('#img-upload-form').serialize();
+
+    // make uploadImg object/dictionary
+
+    // = new FormData($('img-upload-form')[0]);
+    // var uploadImg = $('#img').val();
+
+    // instead of uploadImg use imgData, clearer
+    // var imgData = new FormData($('#img-upload-form')[0]);
+    var imgData = new FormData();
+    imgData.append('img', $('#img').val());
+
+    // console.log(uploadImg);
+
+    $.ajax({type: "POST",
+            paramname: "img",
+            url: "/upload_file_img.json", 
+            data: imgData,
+            contentType: false,
+            processData: false,
+            // dataType: "json"
+            // mimeType: "multipart/form-data",
+            success: function (data) {
+                console.log('Success! now put in html');
+        // $('#photo-uploaded').html("<img src= {{ url_for('static', filename='uploaded/images/" + model3d.downloadable + "') }} height='300em' alt='results.img_url'>");
+            }
+    });
+}
+
+$('#img-upload-form').on('submit', uploadImage);
+
+</script>
 
 
 {% endblock %}

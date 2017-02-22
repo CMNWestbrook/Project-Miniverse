@@ -2,7 +2,7 @@
 import os
 from jinja2 import StrictUndefined  # makes StrictUndefined work below
 # Makes all the flask commands work
-from flask import Flask, redirect, session, render_template, request, flash, send_from_directory, current_app
+from flask import Flask, redirect, session, render_template, request, flash, send_from_directory, current_app, url_for, jsonify
 # from flaskext.uploads import configure_uploads
 # , IMAGES, ALL
 from werkzeug.utils import secure_filename
@@ -121,8 +121,8 @@ def user_dashboard(user_id):
 
 
 ########### UPLOADS ############
-IMG_UPLOAD_FOLDER = 'uploaded/images'
-IMG_ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+IMG_UPLOAD_FOLDER = 'static/uploaded/images'
+IMG_ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 #STL_UPLOAD_FOLDER = '/uploaded/stl_files'
 STL_UPLOAD_FOLDER = 'uploaded/stl_files'
@@ -133,34 +133,14 @@ app.config['STL_UPLOAD_FOLDER'] = STL_UPLOAD_FOLDER
 
 
 # these two functions make sure the file exension is correct
-def img_allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in IMG_ALLOWED_EXTENSIONS
+def img_allowed_file(img_filename):
+    return '.' in img_filename and \
+           img_filename.rsplit('.', 1)[1].lower() in IMG_ALLOWED_EXTENSIONS
 
 
 def stl_allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in STL_ALLOWED_EXTENSIONS
-
-
-@app.route('/upload_file_img', methods=['GET', 'POST'])
-def upload_file_img():
-    if request.method == 'POST':
-        # check if the post request has the file ending
-        if 'img' not in request.files:
-            flash('Incorrect file ending')
-            return redirect("/upload_file_img")
-        img_file = request.files['img']
-        if img_file.filename == '':
-            flash("You didn\'t select a file")
-            return redirect("/upload_file_img")
-        if request.method == 'POST' and img_file and img_allowed_file(img_file.filename):
-            filename = secure_filename(img_file.filename)
-            img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], filename))
-            flash("%s has been uploaded" % filename)
-            return filename
-
-    return render_template('upload_img.html')
 
 
 @app.route('/upload_file_stl', methods=['GET'])
@@ -214,12 +194,70 @@ def model_3d_page(model_3d_id):
     user = User.query.get(user_id)
     model3d = Model3d.query.get(model_3d_id)
     current_user = session['user_id']
+    img = UserImage.query.get(model_3d_id)
+    # img = UserImage.query.get(img_id)
 
-    return render_template('model_3d_page.html', user=user, model3d=model3d, current_user=current_user)
+    return render_template('model_3d_page.html', user=user, model3d=model3d, current_user=current_user, img=img)
 
 
-# make route for photo upload
-# /uploaded/stl_files/<path:filename>
+@app.route('/upload_file_img.json', methods=['POST'])
+def upload_file_img():
+    """Processes and uploads the file securely and generates confirmation page"""
+    print "stuffnthings!!!!!!!!!!!" * 10
+    print "1" * 20
+
+    # img_file = request.files['png', 'jpg', 'jpeg', 'gif']
+    # img_file = request.files['file']
+
+    if 'img' not in request.files:
+        flash('Incorrect file ending')
+        return redirect("/upload_file_img.json")
+        print "1.5" * 20
+
+    img_file = request.files['img']
+    print "2" * 20
+
+    if img_file.img_filename == '':
+        flash('You didn\'t select the correct file type')
+        return redirect("upload_file_img.jsonrequest.url")
+        print "2.5" * 20
+    if img_file and img_allowed_file(img_file.img_filename):
+        img_filename = secure_filename(img_file.img_filename)
+        img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], img_filename))
+        print "3" * 20
+    # import pdb; pdb.set_trace()
+
+    # if 'png', 'jpg', 'jpeg', 'gif' not in request.files:
+    #     flash('Incorrect file ending')
+    #     return redirect("/upload_file_img")
+    # if img_file.img_filename == '':
+    #     flash('You didn\'t select the correct file type')
+    #     return redirect("/upload_file_img")
+    # if img_file and img_allowed_file(img_file.img_filename):
+    # img_filename = secure_filename(img_file.img_filename)
+    # img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], img_filename))
+
+    user_id = session['user_id']
+    # ???? sending the right thing?
+    filepath_img = img_filename
+
+    print "4" * 20
+    new_img = UserImage(filepath_img=filepath_img, user_id=user_id)
+
+    print "5" * 20
+    db.session.add(new_img)
+    db.session.commit()
+
+    print "6" * 20
+
+    model_3d_id = UserImage.query.get(new_img.id)
+    user = User.query.get(user_id)
+    # img = Model3d.query.get(filepath_img)
+    # img = UserImage.query.get(model_3d_id)
+
+    print jsonify({'img_url': img, 'user': user, 'model_3d_id': model_3d_id})
+    return jsonify({'img_url': img, 'user': user, 'model_3d_id': model_3d_id})
+
 
 @app.route('/uploaded/stl_files/<path:filepath_3d>', methods=['GET'])
 def download(filepath_3d):
