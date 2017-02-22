@@ -96,11 +96,21 @@ def logout():
     return redirect("/")
 
 
-@app.route('/explore')
-def explore_page():
+@app.route('/explore', methods=['GET', 'POST'])
+def explore():
     """Goes to search/explore page"""
 
     return render_template('explore.html')
+
+# sample code
+# @app.route('/search', methods=['GET', 'POST'])
+# def search():
+#     if request.method == "POST":
+#         db = MySQLdb.connect(user="root", passwd="", db="cs324", host="127.0.0.1")
+#         c=db.cursor()
+#         c.executemany('''select * from student where name = %s''', request.form['search'])
+#         return render_template("results.html", records=c.fetchall())
+#     return render_template('search.html')
     # return ajax?
 
 
@@ -133,9 +143,9 @@ app.config['STL_UPLOAD_FOLDER'] = STL_UPLOAD_FOLDER
 
 
 # these two functions make sure the file exension is correct
-def img_allowed_file(img_filename):
-    return '.' in img_filename and \
-           img_filename.rsplit('.', 1)[1].lower() in IMG_ALLOWED_EXTENSIONS
+def img_allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in IMG_ALLOWED_EXTENSIONS
 
 
 def stl_allowed_file(filename):
@@ -206,9 +216,6 @@ def upload_file_img():
     print "stuffnthings!!!!!!!!!!!" * 10
     print "1" * 20
 
-    # img_file = request.files['png', 'jpg', 'jpeg', 'gif']
-    # img_file = request.files['file']
-
     if 'img' not in request.files:
         flash('Incorrect file ending')
         return redirect("/upload_file_img.json")
@@ -217,29 +224,19 @@ def upload_file_img():
     img_file = request.files['img']
     print "2" * 20
 
-    if img_file.img_filename == '':
+    if img_file.filename == '':
         flash('You didn\'t select the correct file type')
         return redirect("upload_file_img.jsonrequest.url")
         print "2.5" * 20
-    if img_file and img_allowed_file(img_file.img_filename):
-        img_filename = secure_filename(img_file.img_filename)
-        img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], img_filename))
+    if img_file and img_allowed_file(img_file.filename):
+        filename = secure_filename(img_file.filename)
+        img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], filename))
         print "3" * 20
     # import pdb; pdb.set_trace()
 
-    # if 'png', 'jpg', 'jpeg', 'gif' not in request.files:
-    #     flash('Incorrect file ending')
-    #     return redirect("/upload_file_img")
-    # if img_file.img_filename == '':
-    #     flash('You didn\'t select the correct file type')
-    #     return redirect("/upload_file_img")
-    # if img_file and img_allowed_file(img_file.img_filename):
-    # img_filename = secure_filename(img_file.img_filename)
-    # img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], img_filename))
-
     user_id = session['user_id']
     # ???? sending the right thing?
-    filepath_img = img_filename
+    filepath_img = filename
 
     print "4" * 20
     new_img = UserImage(filepath_img=filepath_img, user_id=user_id)
@@ -250,7 +247,7 @@ def upload_file_img():
 
     print "6" * 20
 
-    model_3d_id = UserImage.query.get(new_img.id)
+    model_3d_id = UserImage.query.get(model_3d_id)
     user = User.query.get(user_id)
     # img = Model3d.query.get(filepath_img)
     # img = UserImage.query.get(model_3d_id)

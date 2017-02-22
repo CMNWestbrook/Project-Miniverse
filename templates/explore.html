@@ -3,17 +3,14 @@
 
 <h3>Explore the 3D models on Project Miniverse</h3>
 
-
-    <form action="/" method="GET">
-    <div>
-        <label>
-            Explore the Miniverse: <input type="search" id="explore-box">
-        </label>
-    </div>
-    <br />
-    <div>
+<div id="explore-form">
+    <form action="/explore" method="POST">
+        Explore the Miniverse: <input type="text" name="explore"
+        id="explore-input" value="{{ request.form.search }}">
+        <br />
         <input type="submit" value="Onwards!">
-    </div>
-</form>
+    </form>
+</div>
+
 
 {% endblock %}

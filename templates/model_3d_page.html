@@ -52,20 +52,10 @@ testing image!!!!!!!!!!!!
 <script>
 function uploadImage(evt) {
     evt.preventDefault();
-    // var uploadImg = $('#img').val();
-    // // var uploadImg = $('#img-upload-form').serialize();
 
-    // make uploadImg object/dictionary
-
-    // = new FormData($('img-upload-form')[0]);
-    // var uploadImg = $('#img').val();
-
-    // instead of uploadImg use imgData, clearer
-    // var imgData = new FormData($('#img-upload-form')[0]);
     var imgData = new FormData();
-    imgData.append('img', $('#img').val());
-
-    // console.log(uploadImg);
+    var file = $('#img')[0].files[0];
+    imgData.append('img', file);
 
     $.ajax({type: "POST",
             paramname: "img",
@@ -76,8 +66,8 @@ function uploadImage(evt) {
             // dataType: "json"
             // mimeType: "multipart/form-data",
             success: function (data) {
-                console.log('Success! now put in html');
-        // $('#photo-uploaded').html("<img src= {{ url_for('static', filename='uploaded/images/" + model3d.downloadable + "') }} height='300em' alt='results.img_url'>");
+                // console.log('Success! now put in html');
+        $('#photo-uploaded').html("<img src= {{ url_for('static', filename='uploaded/images/" + model3d.downloadable + "') }} height='300em' alt='results.img_url'>");
             }
     });
 }
