@@ -1,16 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Explore the 3D models on Project Miniverse</h3>
+<h3>Explore the Miniverse!</h3>
 
 <div id="explore-form">
     <form action="/explore" method="POST">
-        Explore the Miniverse: <input type="text" name="explore"
-        id="explore-input" value="{{ request.form.search }}">
+        Search through the titles of 3D models on Miniverse:
         <br />
+        <div class="small-words">(one word searches will return the best results)</div>
+        <br />
+        <input type="text" name="explore-input"
+        id="explore-input">
+        <br /><br />
         <input type="submit" value="Onwards!">
     </form>
 </div>
 
-
+These are your results for the search of "{{ explore_input }}""
+<div id="printed-results">
+    {% for result in results %}
+      <li>
+        {{ result }}
+      </li>
+    {% endfor %}
+</div>
 {% endblock %}

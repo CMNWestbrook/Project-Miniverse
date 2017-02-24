@@ -96,21 +96,27 @@ def logout():
     return redirect("/")
 
 
-@app.route('/explore', methods=['GET', 'POST'])
+@app.route('/explore', methods=['GET'])
 def explore():
     """Goes to search/explore page"""
 
-    return render_template('explore.html')
+    explore_input = request.form.get("explore-input")
+    results = Model3d.query.filter(Model3d.title.like('%'+str(explore_input)+'%'))
 
-# sample code
-# @app.route('/search', methods=['GET', 'POST'])
-# def search():
-#     if request.method == "POST":
-#         db = MySQLdb.connect(user="root", passwd="", db="cs324", host="127.0.0.1")
-#         c=db.cursor()
-#         c.executemany('''select * from student where name = %s''', request.form['search'])
-#         return render_template("results.html", records=c.fetchall())
-#     return render_template('search.html')
+    return render_template('explore.html', results=results, explore_input=explore_input)
+
+
+@app.route('/explore', methods=['POST'])
+def explore_results():
+    """Returns results on search/explore page"""
+
+    explore_input = request.form.get("explore-input")
+    # in jinja do for result in results
+    results = Model3d.query.filter(Model3d.title.like('%'+str(explore_input)+'%'))
+
+#   Employee.query.filter(Employee.name.like('%Jane%'))
+    return render_template('explore.html', results=results, explore_input=explore_input)
+
     # return ajax?
 
 
