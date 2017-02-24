@@ -200,14 +200,22 @@ def upload_file_stl():
 def model_3d_page(model_3d_id):
     """Shows the page for an individual 3D model and allows image uploads"""
 
-    user_id = session['user_id']
-    user = User.query.get(user_id)
     model3d = Model3d.query.get(model_3d_id)
-    current_user = session['user_id']
-    img = UserImage.query.get(model_3d_id)
-    # img = UserImage.query.get(img_id)
+    # current_user_id = session.get('user_id')
+    user = User.query.get(model3d.user_id)
+    # img = UserImage.query.get(model_3d_id)
+    img = db.session.query(UserImage).filter_by(model_3d_id=model3d.model_3d_id).first()
 
-    return render_template('model_3d_page.html', user=user, model3d=model3d, current_user=current_user, img=img)
+    # import pdb
+    # pdb.set_trace()
+
+    if 'user_id' in session:
+        return render_template('model_3d_page.html', 
+                               user=user, 
+                               model3d=model3d, 
+                               img=img)
+    flash("Log in to view user pages!!!")
+    return redirect("/")
 
 
 @app.route('/model_3d_page/<int:model_3d_id>', methods=['POST'])
@@ -217,11 +225,11 @@ def upload_file_img(model_3d_id):
     # check if the post request has the file ending
     if 'img' not in request.files:
         flash('Incorrect file ending')
-        return redirect('/model_3d_page/<int:model_3d_id>')
+        return redirect('/model_3d_page/' + str(model_3d_id))
     img_file = request.files['img']
     if img_file.filename == '':
         flash('You didn\'t select the correct file type')
-        return redirect("/model_3d_page/<int:model_3d_id>")
+        return redirect("/model_3d_page/" + str(model_3d_id))
     if img_file and img_allowed_file(img_file.filename):
         filename = secure_filename(img_file.filename)
         img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], filename))
@@ -230,22 +238,19 @@ def upload_file_img(model_3d_id):
         filepath_img = filename
 
         model3d = Model3d.query.get(model_3d_id)
-        # model_3d_id = model3d.img_id
-
-        # model3d = Model3d.query.get(model_3d_id)????? wrong query
-        current_user = session['user_id']
-        # img = UserImage.query.get(model_3d_id)
+        # current_user = session['user_id'] user_id by itself instead
 
         new_img = UserImage(filepath_img=filepath_img, user_id=user_id, model_3d_id=model_3d_id)
         db.session.add(new_img)
         db.session.commit()
         user = User.query.get(user_id)
-        # img = filepath_3d
+        img = db.session.query(UserImage).filter_by(model_3d_id=model3d.model_3d_id).first()
 
         flash("The image %s has been uploaded!" % filename)
-        print user, model3d, current_user, new_img
-        return render_template('model_3d_page.html', user=user, model3d=model3d, current_user=current_user, img=new_img)
-
+        return render_template('model_3d_page.html',
+                               user=user,
+                               model3d=model3d,
+                               img=img)
 
 @app.route('/uploaded/stl_files/<path:filepath_3d>', methods=['GET'])
 def download(filepath_3d):
@@ -254,52 +259,7 @@ def download(filepath_3d):
     uploads = os.path.join(app.config['STL_UPLOAD_FOLDER'])
 
     return send_from_directory(directory=uploads, filename=filepath_3d)
-    #return send_from_directory(directory="uploaded/stl_files", filename=filepath_3d)
 
-
-###############################
-# UPLOAD image file via ajax, almost working? Fix if time permits
-# @app.route('/upload_file_img.json', methods=['POST'])
-# def upload_file_img():
-#     """Processes and uploads the file securely and generates confirmation page"""
-#     print "stuffnthings!!!!!!!!!!!" * 10
-#     print "1" * 20
-#     if 'img' not in request.files:
-#         flash('Incorrect file ending')
-#         return redirect("/upload_file_img.json")
-#         print "1.5" * 20
-#     img_file = request.files['img']
-#     print "2" * 20
-#     if img_file.filename == '':
-#         flash('You didn\'t select the correct file type')
-#         return redirect("upload_file_img.jsonrequest.url")
-#         print "2.5" * 20
-#     if img_file and img_allowed_file(img_file.filename):
-#         filename = secure_filename(img_file.filename)
-#         img_file.save(os.path.join(app.config['IMG_UPLOAD_FOLDER'], filename))
-#         print "3" * 20
-#     # import pdb; pdb.set_trace()
-
-#     user_id = session['user_id']
-#     # ???? sending the right thing?
-#     filepath_img = filename
-    # model_3d_id = ?
-#     print "4" * 20
-#     new_img = UserImage(filepath_img=filepath_img, user_id=user_id, model_3d_id=model_3d_id)
-
-#     print "5" * 20
-#     db.session.add(new_img)
-#     db.session.commit()
-
-#     print "6" * 20
-
-#     model_3d_id = Model3d.query.get(model_3d_id)
-#     user = User.query.get(user_id)
-#     # img = Model3d.query.get(filepath_img)
-
-#     print jsonify({'img_url': img, 'user': user, 'model_3d_id': model_3d_id})
-#     return jsonify({'img_url': img, 'user': user, 'model_3d_id': model_3d_id})
-##########################
 
 if __name__ == "__main__":
     app.debug = True

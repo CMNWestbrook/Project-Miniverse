@@ -6,23 +6,19 @@
 
 This 3D model was uploaded by {{ model3d.user.username }}
 <br /><br />
-Is this file downloadable? {{ model3d.downloadable}}
-<br /><br />
-user id: {{ model3d.user.user_id }} {{ current_user }}
+Is this file downloadable? {{ model3d.downloadable }}
 
-{% if model3d.downloadable %}
+{% if model3d.downloadable or session.get('user_id') == model3d.user_id %}
     <p>
-    IF DOWNLOADABLE!!!!!
     Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
     </p>
 {% endif %}
 
-{% if current_user == model3d.user.user_id %}
+<div id="photo-uploaded"><img src= '/static/uploaded/images/{{ img.filepath_img }}' height='300em' alt='test'></div>
+
+{% if session.get('user_id') == model3d.user.user_id %}
 <br /><br />
-<div id="user download file">
-IF USER THAT OWNS FILE IN SESSION!!!!
-Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
-</div><br />
+
 
 <div>
     <p>Upload a photo or rendering of your 3D model:</p>
@@ -34,53 +30,7 @@ Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>
 
 {% endif %}
 
-<div>
-testing image!!!!!!!!!!!!
-<img src= {{ url_for('static', filename ='uploaded/images/testiph.jpg') }} height='200em' alt='test'>
-
-</div>
-
-Testing<br />
-model id then img filepath? {{img.model_3d.filepath_img}}<br /><br />
-user{{user}}<br /><br />
-model3d {{model3d}}<br /><br />
-model3d.img {{model3d.filepath_img}}<br /><br />
-current_user{{current_user}}<br /><br />
-img{{img}}<br /><br />
-imgfilepathchangesimg2{{img.filepath_img}}<br /><br />
-img2{{image}}<br /><br />
-filepath?{{model3d.model_3d_id}}<br /><br />
-model id {{img.img_id}}<br /><br />
-
-<div id="photo-uploaded"><img src= '/static/uploaded/images/{{ img.filepath_img }}' height='300em' alt='test'></div>
-
 
 <script src="https://code.jquery.com/jquery.js"></script>
-// <script>
-// function uploadImage(evt) {
-//     evt.preventDefault();
-
-//     var imgData = new FormData();
-//     var file = $('#img')[0].files[0];
-//     imgData.append('img', file);
-
-//     $.ajax({type: "POST",
-//             paramname: "img",
-//             url: "/upload_file_img.json", 
-//             data: imgData,
-//             contentType: false,
-//             processData: false,
-//             // dataType: "json"
-//             // mimeType: "multipart/form-data",
-//             success: function (data) {
-//                 // console.log('Success! now put in html');
-//         $('#photo-uploaded').html("<img src= {{ url_for('static', filename='uploaded/images/" + model3d.downloadable + "') }} height='300em' alt='results.img_url'>");
-//             }
-//     });
-// }
-
-// $('#img-upload-form').on('submit', uploadImage);
-// </script>
-
 
 {% endblock %}
