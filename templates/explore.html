@@ -5,7 +5,7 @@
 
 <div id="explore-form">
     <form action="/explore" method="POST">
-        Search through the titles of 3D models on Miniverse:
+        Search through the titles of 3D models in Project Miniverse:
         <br />
         <div class="small-words">(one word searches will return the best results)</div>
         <br />
@@ -15,12 +15,12 @@
         <input type="submit" value="Onwards!">
     </form>
 </div>
-
-These are your results for the search of "{{ explore_input }}""
+<br />
+These are your results for the search of "{{ explore_input }}":
 <div id="printed-results">
     {% for result in results %}
       <li>
-        {{ result }}
+        <a href = "/model_3d_page/{{ result.model_3d_id }}">{{ result.title }}</a>
       </li>
     {% endfor %}
 </div>

@@ -10,27 +10,31 @@ Is this file downloadable? {{ model3d.downloadable }}
 
 {% if model3d.downloadable or session.get('user_id') == model3d.user_id %}
     <p>
-    Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}</a>
+    Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}
+    </a>
     </p>
 {% endif %}
 
 <div id="photo-uploaded"><img src= '/static/uploaded/images/{{ img.filepath_img }}' height='300em' alt='test'></div>
 
 {% if session.get('user_id') == model3d.user.user_id %}
-<br /><br />
-
-
-<div>
-    <p>Upload a photo or rendering of your 3D model:</p>
-    <form method="POST" enctype="multipart/form-data" id="img-upload-form">
-        <input type="file" name="img" id="img">
-        <button id="upload-img-button" type="submit">Upload Image</button>
-    </form>
-</div>
-
+    <br /><br />
+    <div>
+        <p>Upload a photo or rendering of your 3D model:</p>
+        <form method="POST" enctype="multipart/form-data" id="img-upload-form">
+            <input type="file" name="img" id="img">
+            <button id="upload-img-button" type="submit">Upload Image</button>
+        </form>
+    </div>
 {% endif %}
 
-
 <script src="https://code.jquery.com/jquery.js"></script>
+<script src="/static/js/three.js"></script>
+<script src="/static/js/STLLoader.js"></script>
+<script src="/static/js/Detector.js"></script>
+<script src="/static/js/OrbitControls.js"></script>
+<script src="/static/js/threejs_stl.js"></script>
+
+
 
 {% endblock %}
