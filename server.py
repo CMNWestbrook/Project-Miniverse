@@ -8,7 +8,7 @@ from flask import Flask, redirect, session, render_template, request, flash, sen
 from werkzeug.utils import secure_filename
 # This imports the debug toolbar witch will give useful error messages
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, User, Model3d, Favorite, UserImage
+from model import connect_to_db, db, User, Model3d, UserImage
 
 
 app = Flask(__name__)
@@ -101,18 +101,18 @@ def explore():
     """Goes to search/explore page"""
 
     explore_input = request.form.get("explore-input")
-    results = Model3d.query.filter(Model3d.title.like('%'+str(explore_input)+'%'))
+    results = Model3d.query.filter(Model3d.title.ilike('%'+str(explore_input)+'%'))
 
     return render_template('explore.html', results=results, explore_input=explore_input)
 
 
 @app.route('/explore', methods=['POST'])
 def explore_results():
-    """Returns results on search/explore page"""
+    """Returns results on search/explore page using ilike for case insensitive results"""
 
     explore_input = request.form.get("explore-input")
     # in jinja do for result in results
-    results = Model3d.query.filter(Model3d.title.like('%'+str(explore_input)+'%'))
+    results = Model3d.query.filter(Model3d.title.ilike('%'+str(explore_input)+'%'))
 
 #   Employee.query.filter(Employee.name.like('%Jane%'))
     return render_template('explore.html', results=results, explore_input=explore_input)
@@ -132,8 +132,12 @@ def user_dashboard(user_id):
     """Users personal dashboard"""
 
     user = User.query.get(user_id)
+    # fix this
+    img = db.session.query(UserImage).filter_by(model_3d_id='model_3d.model_3d_id')
+    # img = db.session.query(UserImage).filter_by(model_3d_id=model3d.model_3d_id).first()
+    # img = UserImage.query.get(img_id)
 
-    return render_template('user.html', user=user)
+    return render_template('user.html', user=user, img=img)
 
 
 ########### UPLOADS ############
@@ -216,9 +220,9 @@ def model_3d_page(model_3d_id):
     # pdb.set_trace()
 
     if 'user_id' in session:
-        return render_template('model_3d_page.html', 
-                               user=user, 
-                               model3d=model3d, 
+        return render_template('model_3d_page.html',
+                               user=user,
+                               model3d=model3d,
                                img=img)
     flash("Log in to view user pages!!!")
     return redirect("/")
@@ -257,6 +261,7 @@ def upload_file_img(model_3d_id):
                                user=user,
                                model3d=model3d,
                                img=img)
+
 
 @app.route('/uploaded/stl_files/<path:filepath_3d>', methods=['GET'])
 def download(filepath_3d):

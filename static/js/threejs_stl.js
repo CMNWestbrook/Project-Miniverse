@@ -9,6 +9,9 @@ var camera, cameraTarget, scene, renderer;
 init();
 animate();
 
+var width = window.innerWidth;
+var height = window.innerHeight;
+
 function init() {
 
     // must assign window. inner__ to variables or else can't later divide size

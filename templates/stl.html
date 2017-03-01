@@ -11,7 +11,7 @@ Title: {{ title }}
 Download Link: <a href="uploaded/stl_files/{{ stl }}" download>{{ stl }}</a>
 </p>
 
-Go to your dashboard to select each 3D model's page
+Go to your <a href="/dashboard/{{ user.user_id }}"> dashboard to select each 3D model's page
 
 {% if (downloadable or "user_id" in session) %}
 

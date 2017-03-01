@@ -5,11 +5,9 @@
 
     {% if "user_id" in session %}
 <div>
-
         <h3>Upload a 3D model in STL format here:</h3>
 
         <a href="/upload_file_stl" id="upload_page">Upload Page</a>
-
 </div>
 
 
@@ -18,12 +16,17 @@
     <ul>
     {% for model_3d in user.models_3d %}
       <li>
+        <img src= "/static/uploaded/images/{{ model_3d.model_3d_id }}" height="100em" alt="3d_thumbnail">
+        <br />
+        This models id:{{model_3d.model_3d_id}}
+        <br />
+        Img info: {{img}}
+        <br />
         <a href="/model_3d_page/{{ model_3d.model_3d_id }}">{{ model_3d.title }}</a>
       </li>
     {% endfor %}
     </ul>
 </p>
-
 
     {% endif %}
 
