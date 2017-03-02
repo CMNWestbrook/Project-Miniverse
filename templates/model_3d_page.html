@@ -16,7 +16,7 @@ This 3D model was uploaded by <a href = "/dashboard/{{ model3d.user_id }}"> {{ m
 {% endif %}
 
 {% if img %}
-<div id="photo-uploaded"><img src= '/static/uploaded/images/{{ img.filepath_img }}' height='300em' alt='3d_image'></div>
+<div id="photo-uploaded"><img src='/static/uploaded/images/{{ img.filepath_img }}' height='300em' alt='3d_image'></div>
 {% else %}
 <br />
 {% endif %}
@@ -38,6 +38,7 @@ This 3D model was uploaded by <a href = "/dashboard/{{ model3d.user_id }}"> {{ m
     <br />
 
 <script src="https://code.jquery.com/jquery.js"></script>
+
 <script src="/static/js/three.js"></script>
 <script src="/static/js/STLLoader.js"></script>
 <script src="/static/js/Detector.js"></script>
@@ -107,7 +108,6 @@ function init() {
         mesh.receiveShadow = true;
 
         scene.add( mesh );
-
     } );
 
 
@@ -160,7 +160,6 @@ function addShadowedLight( x, y, z, color, intensity ) {
     directionalLight.shadow.mapSize.height = 1024;
 
     directionalLight.shadow.bias = -0.005;
-
 }
 
 function onWindowResize() {

@@ -111,7 +111,6 @@ def explore_results():
     """Returns results on search/explore page using ilike for case insensitive results"""
 
     explore_input = request.form.get("explore-input")
-    # in jinja do for result in results
     results = Model3d.query.filter(Model3d.title.ilike('%'+str(explore_input)+'%'))
 
 #   Employee.query.filter(Employee.name.like('%Jane%'))
@@ -133,9 +132,9 @@ def user_dashboard(user_id):
 
     user = User.query.get(user_id)
     # fix this
-    img = db.session.query(UserImage).filter_by(model_3d_id='model_3d.model_3d_id')
+    img = db.session.query(UserImage.filepath_img).all()
     # img = db.session.query(UserImage).filter_by(model_3d_id=model3d.model_3d_id).first()
-    # img = UserImage.query.get(img_id)
+    # img = UserImage.query.filter(model_3d_id=='model_3d_id')
 
     return render_template('user.html', user=user, img=img)
 

@@ -20,6 +20,7 @@ These are your results for the search of "{{ explore_input }}":
 <div id="printed-results">
     {% for result in results %}
       <li>
+        <img src= "/static/uploaded/images/{{ model_3d.user_images[0].filepath_img }}" height="50em" alt="search_thumbnail">
         <a href = "/model_3d_page/{{ result.model_3d_id }}">{{ result.title }}</a>
       </li>
     {% endfor %}

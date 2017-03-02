@@ -49,7 +49,7 @@ function init() {
     // Load STL file
     var material = new THREE.MeshPhongMaterial( { color: 0x7a8699, specular: 0x111111, shininess: 200 } );
 
-    loader.load( '/uploaded/stl_files/projectminiverese_text.stl', function ( geometry ) {
+    loader.load( '/uploaded/stl_files/miniverse_w_planet.stl', function ( geometry ) {
 
         var mesh = new THREE.Mesh( geometry, material );
 
@@ -137,10 +137,10 @@ function animate() {
 
 function render() {
     // Makes the model(s) spin slower or faster, optional
-        var timer = Date.now() * 0.0005;
+        var timer = Date.now() * 0.0004;
         // Distance from objects
-        camera.position.x = Math.cos( timer ) * 2;
-        camera.position.z = Math.sin( timer ) * 2;
+        camera.position.x = Math.cos( timer ) * 3;
+        camera.position.z = Math.sin( timer ) * 3;
 
     camera.lookAt( cameraTarget );
 
