@@ -16,7 +16,12 @@
     <ul>
     {% for model_3d in user.models_3d %}
       <li>
-        <img src= "/static/uploaded/images/{{ model_3d.user_images[0].filepath_img }}" height="75em" alt="3d_thumbnail">
+<!--         model_3d.user_images {{model_3d.user_images}} -->
+        {% if model_3d.user_images %}
+        <img src= "/static/uploaded/images/{{ model_3d.user_images.0.filepath_img }}" height="75em" alt="3d_thumbnail">
+        {% else %}
+        <p>No image available</p>
+        {% endif %}
         <br />
         <a href="/model_3d_page/{{ model_3d.model_3d_id }}">{{ model_3d.title }}</a>
         <br /><br />

@@ -101,9 +101,10 @@ def explore():
     """Goes to search/explore page"""
 
     explore_input = request.form.get("explore-input")
+    img = db.session.query(UserImage.filepath_img).all()
     results = Model3d.query.filter(Model3d.title.ilike('%'+str(explore_input)+'%'))
 
-    return render_template('explore.html', results=results, explore_input=explore_input)
+    return render_template('explore.html', results=results, explore_input=explore_input, img=img)
 
 
 @app.route('/explore', methods=['POST'])
@@ -111,10 +112,11 @@ def explore_results():
     """Returns results on search/explore page using ilike for case insensitive results"""
 
     explore_input = request.form.get("explore-input")
+    img = db.session.query(UserImage.filepath_img).all()
     results = Model3d.query.filter(Model3d.title.ilike('%'+str(explore_input)+'%'))
 
 #   Employee.query.filter(Employee.name.like('%Jane%'))
-    return render_template('explore.html', results=results, explore_input=explore_input)
+    return render_template('explore.html', results=results, explore_input=explore_input, img=img)
 
     # return ajax?
 
@@ -133,8 +135,6 @@ def user_dashboard(user_id):
     user = User.query.get(user_id)
     # fix this
     img = db.session.query(UserImage.filepath_img).all()
-    # img = db.session.query(UserImage).filter_by(model_3d_id=model3d.model_3d_id).first()
-    # img = UserImage.query.filter(model_3d_id=='model_3d_id')
 
     return render_template('user.html', user=user, img=img)
 
@@ -204,15 +204,12 @@ def upload_file_stl():
         return render_template('stl.html', user=user, stl=stl, title=title, downloadable=downloadable)
 
 
-# takes info out of database
 @app.route('/model_3d_page/<int:model_3d_id>', methods=['GET'])
 def model_3d_page(model_3d_id):
     """Shows the page for an individual 3D model and allows image uploads"""
 
     model3d = Model3d.query.get(model_3d_id)
-    # current_user_id = session.get('user_id')
     user = User.query.get(model3d.user_id)
-    # img = UserImage.query.get(model_3d_id)
     img = db.session.query(UserImage).filter_by(model_3d_id=model3d.model_3d_id).first()
 
     # import pdb
@@ -247,7 +244,6 @@ def upload_file_img(model_3d_id):
         filepath_img = filename
 
         model3d = Model3d.query.get(model_3d_id)
-        # current_user = session['user_id'] user_id by itself instead
 
         new_img = UserImage(filepath_img=filepath_img, user_id=user_id, model_3d_id=model_3d_id)
         db.session.add(new_img)
