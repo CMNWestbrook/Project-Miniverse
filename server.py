@@ -115,10 +115,15 @@ def explore_results():
     img = db.session.query(UserImage.filepath_img).all()
     results = Model3d.query.filter(Model3d.title.ilike('%'+str(explore_input)+'%'))
 
-#   Employee.query.filter(Employee.name.like('%Jane%'))
     return render_template('explore.html', results=results, explore_input=explore_input, img=img)
 
-    # return ajax?
+# @app.route('/explore-results.json', methods=['POST'])
+# def exploreResults():
+#     """Search and return search results"""
+#     explore_input = request.form.get("explore-input")
+#     img = db.session.query(UserImage.filepath_img).all()
+#     results = Model3d.query.filter(Model3d.title.ilike('%'+str(explore_input)+'%'))
+#     return jsonify({'explore_input': explore_input, 'img': img, 'results': results})
 
 
 @app.route('/about')
@@ -268,7 +273,7 @@ def download(filepath_3d):
 
 
 if __name__ == "__main__":
-    app.debug = True
+    # app.debug = True
 
     connect_to_db(app)
 

@@ -37,7 +37,7 @@ This 3D model was uploaded by <a href = "/dashboard/{{ model3d.user_id }}"> {{ m
 {% endif %}
     <br />
 
-<script src="https://code.jquery.com/jquery.js"></script>
+<!-- <script src="https://code.jquery.com/jquery.js"></script> -->
 
 <script src="/static/js/three.js"></script>
 <script src="/static/js/STLLoader.js"></script>
@@ -67,10 +67,10 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-    camera = new THREE.PerspectiveCamera( 30, width / height, 1, 15 );
-    camera.position.set( 3, 0.15, 3 );
+    camera = new THREE.PerspectiveCamera( 40, width / height, 1, 15 );
+    camera.position.set( 2, 0.15, 3 );
 
-    cameraTarget = new THREE.Vector3( 0, -0.25, 0 );
+    cameraTarget = new THREE.Vector3( 0, -0.05, 0 );
 
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0xb3ddf9, 1, 15 );

@@ -4,16 +4,17 @@
 <h3>Explore the Miniverse!</h3>
 
 <div id="explore-form">
-    <form action="/explore" method="POST">
+    <form class="search-form" action="/explore" method="POST">
         Search through the titles of 3D models in Project Miniverse:
         <br />
-        <div class="small-words">(one word searches will return the best results)</div>
+        <div class="small-words">(One word searches reccomended. To show all 3D models on the site omit search criteria.)</div>
         <br />
         <input type="text" name="explore-input"
-        id="explore-input">
+        id="explore-input-field">
         <br /><br />
-        <input type="submit" value="Onwards!">
+        <button type="submit" id="explore-form-button" class="btn-submit">Onwards!</button>
     </form>
+
 </div>
 <br />
 These are your results for the search of "{{ explore_input }}":
@@ -22,12 +23,29 @@ These are your results for the search of "{{ explore_input }}":
       <li>
         {% if result.user_images %}
         <img src= "static/uploaded/images/{{ result.user_images[0].filepath_img }}" height="50em" alt="search_thumbnail">
+
         {% else %}
         No image available
         {% endif %}
 
         <a href = "/model_3d_page/{{ result.model_3d_id }}">{{ result.title }}</a>
+        <br /><br />
       </li>
     {% endfor %}
 </div>
+
+
+<!-- <script src="https://code.jquery.com/jquery.js"></script> -->
+<!--<script>
+// function initiateExplore(evt) {
+//     evt.preventDefault();
+
+//     var formInputs = {
+//         "explore_input": $("#explore-input-field").val()
+//     };
+
+//     $.post("/explore-results.json", formInputs);
+// }
+</script>-->
+
 {% endblock %}
