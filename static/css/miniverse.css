@@ -1,0 +1,143 @@
+body {
+    background: url(/static/images/stars.jpg) no-repeat right;
+    color: #000;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.centered{
+    text-align: center;
+}
+
+canvas{
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 800px;
+}
+
+.medium-header {
+    color: white;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 3em;
+    /*shadows to the right and down*/
+    text-shadow: 0.05em 0.05em black;
+}
+
+.big-header {
+    color:white;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 4em;
+    font-weight: 500;
+    /*shadows to the right and down*/
+    text-shadow: 0.05em 0.05em black;
+}
+
+.behind-text {
+    background-color: rgba(255, 255, 255, 0.4);
+/*    opacity: 0.3;*/
+}
+
+.regular-text {
+    color: white;
+    font-family: 'Varela Round', sans-serif;
+    font-weight: 600;
+    font-size: 1.4em;
+/*    text-shadow: 0.05em 0.05em 0.08em #fff;
+    blur-radius: 0.1em;*/
+}
+
+.small-text {
+    color:white;
+    font-family: 'Varela Round', sans-serif;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.picture {
+    width: 40%;
+}
+
+.small-black-text {
+    color:black;
+    font-family: 'Varela Round', sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+}
+}
+
+div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+span {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.padding-up{
+    padding-top: 16px;
+}
+
+.padding-tiny-up{
+    padding-top: 6px;
+}
+
+.btn {
+  font-family: 'Exo 2', sans-serif;
+  /*margin: 25px;*/
+  /*padding: 15px 30px;*/
+  text-decoration: none;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+.social-media{
+  background-color: #a4c2f4;
+  color: #333333;
+  padding: 4px 10px 4px 10px;
+  border-top: 1px solid #a5c7ff;
+  border-right: 1px solid #4e555b;
+  border-bottom: 1px solid #4e555b;
+  border-left: 1px solid #a5c7ff;
+  border-radius:0.8em;
+  font-family: 'Varela Round', sans-serif;
+  font-size: 1em;
+}
+
+.container{
+    padding-top: 16px
+}
+
+
+a:link {
+    color: #7ac1ff;
+}
+
+a:visited {
+    color: #a5f0ff;
+}
+
+a:hover {
+    color: #e8f2ff;
+}
+
+a:active {
+    color: blue;
+}

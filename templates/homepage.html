@@ -1,16 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Welcome to Project Miniverse!</h1>
-<div>A place to share low resolution 3D printable 3D models</div>
+<div class="big-header centered">Welcome to Project Miniverse!</div>
+<div class="regular-text centered">A place to share low resolution 3D printable 3D models</div>
 <br />
 
+
+<div class="row">
+  <div></div>
 
 <script src="static/js/three.js"></script>
 <script src="static/js/STLLoader.js"></script>
 <script src="static/js/Detector.js"></script>
 <script src="static/js/OrbitControls.js"></script>
 <script src="static/js/threejs_stl.js"></script>
-Use your mouse to move around the 3D model above.
+
+
+  <div></div>
+</div>
+<div class="small-text centered">Use your mouse to move around the 3D model.</div>
 
 {% endblock %}

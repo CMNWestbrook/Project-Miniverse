@@ -17,8 +17,8 @@ function init() {
     // must assign window. inner__ to variables or else can't later divide size
     var width = window.innerWidth;
     var height = window.innerHeight;
-
     container = document.createElement( 'div' );
+    // container.className = "col-lg-4";
     document.body.appendChild( container );
 
     camera = new THREE.PerspectiveCamera( 30, width / height, 1, 15 );
@@ -122,7 +122,7 @@ function onWindowResize() {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
-    renderer.setSize( width/2, height/2 );
+    renderer.setSize( width/2.5, height/2.5 );
 
 }
 

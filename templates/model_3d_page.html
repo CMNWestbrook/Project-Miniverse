@@ -1,29 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="row">
 
-<h3>Title: {{ model3d.title }}</h3>
+    <div class="col-xs-6 centered"> 
+        <span class="medium-header">
+        Title: {{ model3d.title }}
+        </span>
+        <br />
+        <span class="regular-text">
+        This 3D model was uploaded by <a href = "/dashboard/{{ model3d.user_id }}"> {{ model3d.user.username }} </a>
+        </span>
+        <br />
+        <!-- Is this file downloadable? {{ model3d.downloadable }} -->
 
-This 3D model was uploaded by <a href = "/dashboard/{{ model3d.user_id }}"> {{ model3d.user.username }} </a>
-<br />
-<!-- Is this file downloadable? {{ model3d.downloadable }} -->
+        {% if model3d.downloadable or session.get('user_id') == model3d.user_id %}
+            <span class="regular-text">
+            Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}
+            </a>
+            </span>
+        {% endif %}
+    </div>
 
-{% if model3d.downloadable or session.get('user_id') == model3d.user_id %}
-    <p>
-    Download Link: <a href="/uploaded/stl_files/{{ model3d.filepath_3d }}" download>{{ model3d.title }}
-    </a>
-    </p>
-{% endif %}
+    <div class="col-xs-6 picture">
+        {% if img %}
+            <img id="model-page-img" src='/static/uploaded/images/{{ img.filepath_img }}' alt='3d_image' class="picture">
+        {% else %}
+        <br />
+        {% endif %}
 
-{% if img %}
-<div id="photo-uploaded"><img src='/static/uploaded/images/{{ img.filepath_img }}' height='300em' alt='3d_image'></div>
-{% else %}
-<br />
-{% endif %}
+        {% if session.get('user_id') == model3d.user.user_id %}
+            <br />
+    
 
-{% if session.get('user_id') == model3d.user.user_id %}
-    <br />
-    <div>
     {% if img %}
         <br />
     {% else %}
@@ -33,12 +42,15 @@ This 3D model was uploaded by <a href = "/dashboard/{{ model3d.user_id }}"> {{ m
             <button id="upload-img-button" type="submit">Upload Image</button>
         </form>
     {% endif %}
-    </div>
 {% endif %}
     <br />
+    </div>
+        </div>
+</div> <!-- end container -->
+
 
 <!-- <script src="https://code.jquery.com/jquery.js"></script> -->
-
+<div class="3d-visual">
 <script src="/static/js/three.js"></script>
 <script src="/static/js/STLLoader.js"></script>
 <script src="/static/js/Detector.js"></script>
@@ -122,7 +134,7 @@ function init() {
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setClearColor( scene.fog.color );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( width/2, height/2 );
+    renderer.setSize( width/2.5, height/2.5);
 
     renderer.gammaInput = true;
     renderer.gammaOutput = true;

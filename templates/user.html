@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>{{  user.username }}'s Dashboard</h2>
+<div class="medium-header">{{  user.username }}'s Dashboard</div>
 
     {% if "user_id" in session %}
-<div>
-        <h3>Upload a 3D model in STL format here:</h3>
+<div class="regular-text">
 
-        <a href="/upload_file_stl" id="upload_page">Upload Your STL</a>
+        <h2><a href="/upload_file_stl" id="upload_page">Upload a 3D model in STL format <u>here</u></a></h2>
 </div>
+<br />
 
-
-<h3 id="user3dmodels">{{ user.username }}'s 3D models:</h3> <!-- ajax dropdown? -->
-<p>
+<div  class="regular-text">{{ user.username }}'s 3D models:</div>
+<br />
     <ul>
     {% for model_3d in user.models_3d %}
       <li>
@@ -23,12 +22,11 @@
         <p>No image available</p>
         {% endif %}
         <br />
-        <a href="/model_3d_page/{{ model_3d.model_3d_id }}">{{ model_3d.title }}</a>
-        <br /><br />
+        <div class="padding-tiny-up"><a href="/model_3d_page/{{ model_3d.model_3d_id }}">{{ model_3d.title }}</a></div>
+        <br />
       </li>
     {% endfor %}
     </ul>
-</p>
 
     {% endif %}
 
