@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="medium-header"><h2>Login to your Miniverse account</h2></div>
+
+<div class="medium-header centered">Login to your Miniverse account</div>
+    <br />
+<div class="row centered regular-text">
+    <div class="col-xs-2"> </div>
+    <div class="col-xs-8">
+
     <form action="/login" method="POST">
 
         <div>
@@ -9,17 +15,24 @@
                 Email: <input type="email" name="email" required>
             </label>
         </div>
-<br />
+    <br />
         <div>
             <label>
                 Password: <input type="password" name="password" required>
             </label>
         </div>
-<br />
+    <br />
         <div>
-            <input type="submit" class ="btn" value="Log In">
+            <input type="submit" class ="btn small-black-text" value="Log In">
         </div>
     </form>
 
-    <h2>You don't have an account? <a href="/register" class="btn">REGISTER HERE</a></h2>
+    </div>
+    <div class="col-xs-2"> </div>
+</div>
+    <br />
+<div>
+    <span class="regular-text">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; You don't have an account? <a href="/register" class="btn regular-text">REGISTER HERE</a></span>
+</div>
+
 {% endblock %}

@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block nav %}
 
+        <li><a href="/"> MAIN </a></li>
+        <li><a href="/explore"> EXPLORE </a></li>
+        <li class="active"><a href="/about"> ABOUT US </a></li>
+
+        {% if "user_id" in session %}
+        <li><a href="/dashboard/{{ session['user_id'] }}" class="navigation" id="dashboard">YOUR DASHBOARD</a></li>
+        {% else %}
+
+        {% endif %}
+
+{% endblock %}
+{% block content %}
 
 <div class="medium-header centered">About Project Miniverse</div>
 <br />

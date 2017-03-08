@@ -16,6 +16,15 @@ canvas{
     width: 800px;
 }
 
+.small-header {
+    color:white;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2em;
+    font-weight: 500;
+    /*shadows to the right and down*/
+    text-shadow: 0.05em 0.05em black;
+}
+
 .medium-header {
     color: white;
     font-family: 'Exo 2', sans-serif;
@@ -61,9 +70,15 @@ canvas{
 .small-black-text {
     color:black;
     font-family: 'Varela Round', sans-serif;
-    font-weight: bold;
     font-size: 1em;
 }
+
+.grey-text {
+    color:#62676d;
+}
+
+.color-white {
+    color: white;
 }
 
 div {
@@ -125,7 +140,6 @@ body {
     padding-top: 16px
 }
 
-
 a:link {
     color: #7ac1ff;
 }
@@ -135,9 +149,23 @@ a:visited {
 }
 
 a:hover {
-    color: #e8f2ff;
+    color: #4998ff;
+    text-decoration: none;
 }
 
 a:active {
     color: blue;
+}
+
+input, select {
+    color:black;
+}
+
+ul, li {
+  list-style: none;
+}
+
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
 }

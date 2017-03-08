@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>Register for your very own Miniverse account</h2>
+<div class="medium-header centered">Register for your very own Miniverse account</div>
+      <br />
+<div class="row regular-text">
+    <div class="col-xs-2"> </div>
+    <div class="col-xs-8">
 
 <form action="/register" method="POST">
     <div>
@@ -225,8 +229,14 @@
     <div>*Required field</div>
 <br />
     <div>
-        <input type="submit" value="Register">
+        <input type="submit" class ="btn small-black-text" value="Register">
     </div>
 </form>
+
+    </div>
+    <div class="col-xs-2"> </div>
+</div>
+
+<br />
 
 {% endblock %}
