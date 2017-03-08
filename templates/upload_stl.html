@@ -2,8 +2,13 @@
 
 {% block content %}
 
-    <div>
-    <div class="medium">Upload files and information for your 3D Model's page</div>
+
+<div class="small-header centered">Upload files and information for your 3D Model's page</div>
+
+<div class="row regular-text">
+    <div class="col-xs-2"> </div>
+    <div class="col-xs-8">
+
     <div class="small">(Please upload/fill out all steps)</div>
     <br /><br />
     <form method="POST" enctype=multipart/form-data>
@@ -13,20 +18,21 @@
             3D model or have the owners approval to use it: <br />
             <input type="checkbox" name="owns_file" id="owns_file" value="True"></li><br />
 
-        <li>Your 3D Model in STL format: <input type="file" name="stl"></li><br />
+        <li><b>Your 3D Model in STL format:</b> <input type="file" name="stl"  class="btn small-black-text"></li><br />
 
         <li>Title of your 3D Model: <input type="text" maxlength="40" name="title"></li><br />
  
         <li>Do you give permission for other users to download this file?<br /> 
-        Yes (if No leave unchecked): <input type="checkbox" name="downloadable" id="downloadable" value="True"></li><br />
+        Yes (if No leave unchecked): <input type="checkbox" name="downloadable" id="downloadable" value="True"></li>
     </ol>
-    <br /><br />
 
-        <input type=submit value="Submit">
-
+        <div class="centered"><input type=submit value="Submit" class="btn small-black-text"></div>
     </form>
-    
     </div>
+    <div class="col-xs-2"> </div>
+</div>
+    
+
 
 
 
