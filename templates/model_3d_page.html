@@ -36,11 +36,13 @@
     {% if img %}
         <br />
     {% else %}
+    <span class="regular-text">
         Upload a photo or rendering of your 3D model:
         <form method="POST" enctype="multipart/form-data" id="img-upload-form">
-            <input type="file" name="img" id="img">
-            <button id="upload-img-button" type="submit">Upload Image</button>
+            <input type="file" name="img" id="img" class ="btn small-black-text">
+            <button id="upload-img-button" type="submit" class ="btn small-black-text">Upload Image</button>
         </form>
+    </span>
     {% endif %}
 {% endif %}
     <br />
