@@ -1,7 +1,7 @@
 import unittest
 
-from import
-from model import 
+from server import app
+from model import db, example_data, connect_to_db
 
 
 class MiniverseTests(unittest.TestCase):
@@ -11,9 +11,9 @@ class MiniverseTests(unittest.TestCase):
         self.client = app.test_client()
         app.config['TESTING'] = True
 
-     def test_homepage(self):
-    result = self.client.get("/")
-    self.assertIn("Welcome to Project Miniverse", result.data)
+    def test_homepage(self):
+        result = self.client.get("/")
+        self.assertIn("Welcome to Project Miniverse", result.data)
 
 
 class MiniverseTestsDatabase(unittest.TestCase):
@@ -27,6 +27,7 @@ class MiniverseTestsDatabase(unittest.TestCase):
 
         # Show Flask errors that happen during tests
         app.config['TESTING'] = True
+        # app.config['SECRET_KEY'] = 'soVewyVewySecretDoc'
 
         # Connect to test database
         connect_to_db(app, "postgresql:///testdb")
@@ -40,6 +41,13 @@ class MiniverseTestsDatabase(unittest.TestCase):
 
         db.session.close()
         db.drop_all()
+
+    def test_register(self):
+        """Test registration page."""
+
+        result = self.client.get("/register",follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn("Register for", result.data)
 
 
 if __name__ == "__main__":

@@ -72,9 +72,9 @@ class Favorite(db.Model):
     model_3d_id = db.Column(db.Integer, db.ForeignKey('models_3d.model_3d_id'))  # Foriegn Key
 
     user = db.relationship('User',
-                        backref=db.backref('favorites'))
+                           backref=db.backref('favorites'))
     model_3d = db.relationship('Model3d',
-                        backref=db.backref('favorites'))
+                               backref=db.backref('favorites'))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -94,31 +94,48 @@ class UserImage(db.Model):
     model_3d_id = db.Column(db.Integer, db.ForeignKey('models_3d.model_3d_id'))  # Foriegn Key
 
     user = db.relationship('User',
-                        backref=db.backref('user_images'))
+                           backref=db.backref('user_images'))
     model_3d = db.relationship('Model3d',
-                        backref=db.backref('user_images'))
+                               backref=db.backref('user_images'))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return "<User_Image img_id=%s filepath_img=%s>" % (self.img_id,
-                                                            self.filepath_img)
+                                                           self.filepath_img)
+
+
+def example_data():
+    user = User(email="userdatatest@testy.com",
+                password="testy",
+                username="User testz",
+                country="United States",
+                state="CA"
+                )
+    db.session.add(user)
+    db.session.commit()
 
 
 #####################################################################
-# Helper functions. I need all of this right?  Have to create the database in command line? 
 
-def connect_to_db(app):
-    """Connects the database to the Flask app"""
 
-    # Configure to use our PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///miniverse'
+# def connect_to_db(app):
+#     """Connects the database to the Flask app"""
+
+#     # Configure to use our PostgreSQL database
+#     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///miniverse'
+#     db.app = app
+#     db.init_app(app)
+
+# changed for testing
+def connect_to_db(app, db_uri="postgresql:///miniverse"):
+    """Connects database to Flask"""
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     db.app = app
     db.init_app(app)
 
 
-if __name__ == "__main__":
-
+if __name__ == '__main__':
 
     from server import app
     connect_to_db(app)
