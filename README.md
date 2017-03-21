@@ -10,6 +10,8 @@ Project Miniverse is the project from my time at Hackbright Academy. It is a sit
 * [Technologies](#technologies)
 * [Features](#features)
 
-![](https://github.com/CWestbrookSF/Project-Miniverse/static/images/explore_page_butter.jpg "Explore page butter search")
+![](https://github.com/CWestbrookSF/Project-Miniverse/blob/master/static/images/explore_page_butter.jpg "Explore page butter search")
 
-![](https://github.com/CWestbrookSF/Project-Miniverse/static/images/page_for_buttercream_cupcake_stl.jpg "stl page buttercream")
+![](https://github.com/CWestbrookSF/Project-Miniverse/blob/master/static/images/page_for_buttercream_cupcake_stl.jpg "stl page buttercream")
+
+![](https://github.com/kellyoung/itinerary-mapper/blob/post-hackbright/readme-pics/alltrips.png?raw=true "All Trips Page Image")
