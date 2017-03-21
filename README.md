@@ -1,6 +1,6 @@
 # Project Miniverse
 
-![](https://github.com/CWestbrookSF/Project-Miniverse/static/images/homepage_screencap.jpg "Homepage Screencap")
+![](https://github.com/CWestbrookSF/Project-Miniverse/blob/master/static/images/homepage_screencap.jpg "Homepage Screencap")
 
 ##### Video Demo: [Pending](https://www.youtube.com/)<br>
 
@@ -14,4 +14,3 @@ Project Miniverse is the project from my time at Hackbright Academy. It is a sit
 
 ![](https://github.com/CWestbrookSF/Project-Miniverse/blob/master/static/images/page_for_buttercream_cupcake_stl.jpg "stl page buttercream")
 
-![](https://github.com/kellyoung/itinerary-mapper/blob/post-hackbright/readme-pics/alltrips.png?raw=true "All Trips Page Image")
