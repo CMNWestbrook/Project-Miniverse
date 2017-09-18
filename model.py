@@ -128,15 +128,16 @@ def example_data():
 #     db.init_app(app)
 
 # changed for testing
-def connect_to_db(app, db_uri="postgresql:///miniverse"):
+def connect_to_db(application, db_uri="postgresql:///miniverse"):
     """Connects database to Flask"""
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    db.app = app
-    db.init_app(app)
+    application.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.application = application
+    db.init_app(application)
 
 
 if __name__ == '__main__':
 
-    from server import app
-    connect_to_db(app)
+    from application import application
+    connect_to_db(application)
     print "Connected to DB!!"

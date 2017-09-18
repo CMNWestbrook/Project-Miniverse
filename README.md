@@ -2,7 +2,7 @@
 
 ![](https://github.com/CWestbrookSF/Project-Miniverse/blob/master/static/images/homepage_screencap.jpg "Homepage Screencap")
 
-##### Video Demo: [Pending](https://www.youtube.com/)<br>
+Video Demo: [Unedited, live site pending](https://youtu.be/aq2g_rJfOZs/)<br>
 
 Project Miniverse is the project from my time at Hackbright Academy. It is a site that allows users to share and visualize low resolution 3D printable files. Once a file is uploaded the user can view and interact with a 3D representation of their 3D model. Users can upload renderings or photos of their creations. All users can search all files in the Miniverse. Users can optionally share their 3D models by giving permission for other users to download them.
 
@@ -19,7 +19,7 @@ AJAX, Bootstrap, HTML, CSS, three.js(JS library)
 The user must make an account or log into an existing account. If live the passwords
 would be hashed before being saved in the database.
 
-A user can search the titles of all 3D models uploaded to the site.
+A user can search the titles of all 3D models uploaded to the site if logged in.
 ![](https://github.com/CWestbrookSF/Project-Miniverse/blob/master/static/images/explore_page_butter.jpg "Explore page butter search")
 <br />
 
