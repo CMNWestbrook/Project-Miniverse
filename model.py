@@ -133,12 +133,12 @@ def example_data():
 # def connect_to_db(application, db_uri="postgresql:///miniverse"):
 def connect_to_db(application, db_uri="postgresql://cwestbrooksf:miniverse@miniverse-db.c5xdonrujcv6.us-west-1.rds.amazonaws.com:5432/miniverse"):
     """Connects database to Flask"""
-    with application.app_context():
-        application.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-        application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-        db.application = application
-        db.init_app(application)
-        return application
+    # with application.app_context():
+    application.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.application = application
+    db.init_app(application)
+        # return application
 
 
 if __name__ == '__main__':
