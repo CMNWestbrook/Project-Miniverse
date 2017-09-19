@@ -287,9 +287,10 @@ if __name__ == "__main__":
     connect_to_db(application)
 
     #     # Use the DebugToolbar
-    DebugToolbarExtension(application)
+    # DebugToolbarExtension(application)
 
     # Setting debug to True enables debug output. This line should be
     # removed before deploying a production app.
     # application.debug = True
-    application.run(port=5000, host='0.0.0.0')
+    # application.run(port=5000, host='0.0.0.0')
+    application.run(host='0.0.0.0')

@@ -3,7 +3,7 @@
 from sqlalchemy import func
 
 from model import User, connect_to_db, db
-from server import app
+from application import application
 
 
 def load_users():
@@ -47,7 +47,7 @@ def set_val_user_id():
 
 
 if __name__ == "__main__":
-    connect_to_db(app)
+    connect_to_db(application)
     db.create_all()
 
     load_users()
