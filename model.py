@@ -1,5 +1,6 @@
 """Models and database functions for Project Miniverse"""
 
+import os
 from flask_sqlalchemy import SQLAlchemy
 
 # Connects this to the PostgreSQL database
@@ -133,12 +134,16 @@ def example_data():
 # def connect_to_db(application, db_uri="postgresql:///miniverse"):
 def connect_to_db(application, db_uri="postgresql://cwestbrooksf:miniverse@miniverse-db.c5xdonrujcv6.us-west-1.rds.amazonaws.com:5432/miniverse"):
     """Connects database to Flask"""
-    # with application.app_context():
-    application.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db.application = application
-    db.init_app(application)
-        # return application
+    with application.app_context():
+        application.config['SQLALCHEMY_DATABASE_URI'] = db_uri  # \
+                                                        # + os.environ['cwestbrooksf'] + ':' + os.environ['miniverse'] \
+                                                        # + '@' + os.environ['miniverse-db.c5xdonrujcv6.us-west-1.rds.amazonaws.com:5432'] + ':' + os.environ['5432'] \
+                                                        # + '/' + os.environ['miniverse']
+                                                        # added above, not sure helps, DB still not connecting when deployed
+        application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        db.application = application
+        db.init_app(application)
+        return application
 
 
 if __name__ == '__main__':
