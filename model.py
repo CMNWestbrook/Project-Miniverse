@@ -150,4 +150,3 @@ if __name__ == '__main__':
 
     from application import application
     connect_to_db(application)
-    # print "Connected to DB!!"
