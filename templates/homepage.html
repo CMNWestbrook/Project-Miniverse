@@ -8,7 +8,8 @@
         {% if "user_id" in session %}
         <li><a href="/dashboard/{{ session['user_id'] }}" class="navigation" id="dashboard">YOUR DASHBOARD</a></li>
         {% else %}
-
+        <!-- for now loginAlert used on homepage.html to give users a premade account -->
+        <img src="https://i1.sndcdn.com/avatars-000198471034-mqohs0-t500x500.jpg" width="1" height="1" alt="invisible" onload="loginAlert()" />
         {% endif %}
 
 {% endblock %}
